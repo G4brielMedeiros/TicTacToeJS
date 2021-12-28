@@ -1,60 +1,45 @@
 const gameboard = (() => {
-  const board = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
+  const board = [null, null, null, null, null, null, null, null, null];
+
+  const winCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
   ];
 
-  function markBoard(playerMark, row, col) {
-    board[row][col] = playerMark;
+  function markBoard(playerMark, position) {
+    board[position] = playerMark;
 
     return board;
   }
 
-  function checkHorizontalWin(playerMark) {
-    return board.find((row) => row.every((col) => col == playerMark));
+  function checkPlayerWin(playerMark) {
+    return winCombos.reduce((winner, combo) => {
+      const line = combo.map((spot) => board[spot]);
+
+      if (!winner) winner = line.every((spot) => spot == playerMark);
+
+      return winner;
+    }, false);
   }
 
-  function checkVerticalWin(playerMark, col) {
-    return board.every((row) => row[col] == playerMark);
+  function getWinner() {
+    return checkPlayerWin("X") ? "X" : checkPlayerWin("O") ? "O" : false;
   }
 
-  function checkDiagonalWin(playerMark) {
-    const leftToRight = [];
-    const rightToLeft = [];
-
-    board.reduce((offset, row) => {
-      leftToRight.push(row[offset]);
-      return ++offset;
-    }, 0);
-
-    board.reduce((offset, row) => {
-      rightToLeft.push(row[offset]);
-      return --offset;
-    }, 2);
-
-    const isLeftWinner = leftToRight.every((mark) => mark == playerMark);
-
-    const isRightWinner = rightToLeft.every((mark) => mark == playerMark);
-
-    return isLeftWinner || isRightWinner;
-  }
-
-  function checkWin(playerMark) {
-    return (
-      checkHorizontalWin(playerMark) ||
-      checkVerticalWin(playerMark, 0) ||
-      checkVerticalWin(playerMark, 1) ||
-      checkVerticalWin(playerMark, 2) ||
-      checkDiagonalWin(playerMark)
-    );
-  }
-
-  return { markBoard, checkWin };
+  return { markBoard, getWinner };
 })();
 
-console.table(gameboard.markBoard("X", 0, 2));
-console.table(gameboard.markBoard("X", 1, 1));
-console.table(gameboard.markBoard("X", 2, 0));
+console.table(gameboard.markBoard("X", 7));
+console.table(gameboard.markBoard("X", 4));
+console.table(gameboard.markBoard("X", 5));
+console.table(gameboard.markBoard("O", 6));
+console.table(gameboard.markBoard("O", 1));
+console.table(gameboard.markBoard("O", 2));
 
-console.log(gameboard.checkWin("X"));
+console.log(gameboard.getWinner("X"));
