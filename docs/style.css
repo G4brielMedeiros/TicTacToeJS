@@ -1,0 +1,27 @@
+
+
+.cell {
+  width: 100px;
+  height: 100px;
+  border: 3px solid darkgray;
+  text-align: center;
+  line-height: 100px;
+  font-size: 100px;
+  
+}
+
+#content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#game {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  width: 338px;
+
+  gap: 10px;
+
+}

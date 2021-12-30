@@ -1,5 +1,5 @@
 const gameboard = (() => {
-  const board = [null, null, null, null, null, null, null, null, null];
+  let board = [null, null, null, null, null, null, null, null, null];
 
   const winCombos = [
     [0, 1, 2],
@@ -34,7 +34,12 @@ const gameboard = (() => {
     return checkPlayerWin("X") ? "X" : checkPlayerWin("O") ? "O" : false;
   }
 
-  return { markBoard, getWinner };
+  function resetBoard() {
+    board = board.map(spot => spot = null);
+    return board;
+  }
+
+  return { markBoard, getWinner, resetBoard };
 })();
 
 console.table(gameboard.markBoard("X", 7));
@@ -42,6 +47,8 @@ console.table(gameboard.markBoard("X", 4));
 console.table(gameboard.markBoard("X", 5));
 console.table(gameboard.markBoard("O", 0));
 console.table(gameboard.markBoard("O", 1));
+gameboard.resetBoard();
 console.table(gameboard.markBoard("O", 2));
+
 
 console.log(gameboard.getWinner("X"));
