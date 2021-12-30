@@ -13,6 +13,8 @@ const gameboard = (() => {
   ];
 
   function markBoard(playerMark, position) {
+    if (board[position] != null) return false;
+
     board[position] = playerMark;
 
     return board;
@@ -38,7 +40,7 @@ const gameboard = (() => {
 console.table(gameboard.markBoard("X", 7));
 console.table(gameboard.markBoard("X", 4));
 console.table(gameboard.markBoard("X", 5));
-console.table(gameboard.markBoard("O", 6));
+console.table(gameboard.markBoard("O", 0));
 console.table(gameboard.markBoard("O", 1));
 console.table(gameboard.markBoard("O", 2));
 
